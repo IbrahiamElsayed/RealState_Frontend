@@ -15,7 +15,7 @@ import { AddProperty } from './Pages/add-property/add-property';
 import { BuyerGuard } from './core/guards/buyer-guard';
 import { SellerGuard } from './core/guards/seller-guard';
 
-import { SellerLayout } from './Pages/seller-layout/seller-layout';
+import { SellerLayout } from './layouts/seller-layout/seller-layout';
 import { SellerDashboard } from './Pages/seller-dashboard/seller-dashboard';
 import { SellerProperties } from './Pages/seller-properties/seller-properties';
 import { SellerMessages } from './Pages/seller-messages/seller-messages';
