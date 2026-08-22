@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { Home } from './Pages/home/home';
+import { Home } from './features/home/pages/home/home';
 import { Login } from './features/auth/pages/login/login';
 import { Register } from './features/auth/pages/register/register';
 import { Logout } from './features/auth/pages/logout/logout';
