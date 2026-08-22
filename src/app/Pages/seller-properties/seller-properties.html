@@ -1,0 +1,284 @@
+<div class="sp-page">
+  <!-- Header -->
+  <div class="sp-header">
+    <div class="sp-header-left">
+      <h1>My Properties</h1>
+      <p>
+        {{ propertyService.properties().length }} listing{{
+          propertyService.properties().length !== 1 ? 's' : ''
+        }}
+        managed
+      </p>
+    </div>
+    <div class="sp-header-right">
+      <div class="sp-count">{{ propertyService.properties().length }}</div>
+      <a routerLink="/seller/add-property" class="sp-add-btn">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Add Property
+      </a>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="sp-stats">
+    <div class="sp-stat">
+      <span class="sp-stat-num">{{ propertyService.properties().length }}</span>
+      <span class="sp-stat-lbl">Total</span>
+    </div>
+    <div class="sp-stat">
+      <span class="sp-stat-num">{{
+        propertyService.properties().filter((p) => p.isAvailable).length
+      }}</span>
+      <span class="sp-stat-lbl">Available</span>
+    </div>
+    <div class="sp-stat">
+      <span class="sp-stat-num">{{
+        propertyService.properties().filter((p) => !p.isAvailable).length
+      }}</span>
+      <span class="sp-stat-lbl">Unavailable</span>
+    </div>
+    <div class="sp-stat">
+      <span class="sp-stat-num">{{
+        propertyService.properties().reduce((a, p) => a + (p.viewsCount || 0), 0)
+      }}</span>
+      <span class="sp-stat-lbl">Total Views</span>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (propertyService.loading()) {
+    <div class="sp-loading">
+      <div
+        class="spinner"
+        style="width: 32px; height: 32px; border-top-color: #0d9488; margin: 0 auto 12px"
+      ></div>
+      <p>Loading properties...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (propertyService.error()) {
+    <div class="sp-error">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <p>{{ propertyService.error() }}</p>
+    </div>
+  }
+
+  <!-- Properties Grid -->
+  @if (!propertyService.loading() && !propertyService.error()) {
+    @if (propertyService.properties().length === 0) {
+      <div class="sp-empty">
+        <svg
+          width="56"
+          height="56"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <h3>No Properties Yet</h3>
+        <p>List your first property to start showcasing it to buyers.</p>
+        <a routerLink="/seller/add-property" class="sp-empty-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Add Your First Property
+        </a>
+      </div>
+    } @else {
+      <div class="sp-grid">
+        @for (p of propertyService.properties(); track p.id) {
+          <div class="sp-card">
+            <div class="sp-card-img">
+              <img [src]="'https://localhost:7024' + p.mainImage" [alt]="p.title" loading="lazy" />
+              <div class="sp-card-img-overlay"></div>
+              <div class="sp-card-badges">
+                <span class="sp-badge sp-badge-type">{{ p.listingType }}</span>
+                @if (p.isVerified) {
+                  <span class="sp-badge sp-badge-verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    Verified
+                  </span>
+                }
+              </div>
+              <div class="sp-card-price">{{ p.price | number }} <small>EGP</small></div>
+            </div>
+            <div class="sp-card-body">
+              <div class="sp-card-cat">{{ p.propertyTypeName }}</div>
+              <h3>{{ p.title }}</h3>
+              <div class="sp-card-loc">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ p.cityName }}
+              </div>
+              <div class="sp-card-specs">
+                <div class="sp-spec">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                  {{ p.beds }} Beds
+                </div>
+                <div class="sp-spec">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3" />
+                  </svg>
+                  {{ p.baths }} Baths
+                </div>
+                <div class="sp-spec">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                  </svg>
+                  {{ p.sqFt }} sqft
+                </div>
+              </div>
+              <div class="sp-card-status">
+                <span
+                  class="sp-status-dot"
+                  [class.sp-dot-available]="p.isAvailable"
+                  [class.sp-dot-unavailable]="!p.isAvailable"
+                ></span>
+                {{ p.isAvailable ? 'Available' : 'Unavailable' }}
+                <span class="sp-card-views">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  {{ p.viewsCount || 0 }}
+                </span>
+              </div>
+              <div class="sp-card-actions">
+                <button class="sp-act sp-act-edit" (click)="editProperty(p.id)">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                  Edit
+                </button>
+                <button class="sp-act sp-act-del" (click)="deleteProperty(p.id)">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="3 6 5 6 21 6" />
+                    <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    />
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,131 @@
+.lo-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(13, 148, 136, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(13, 148, 136, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #f0fdfa 0%, #f8fafc 50%, #f1f5f9 100%);
+}
+
+.lo-card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  padding: 48px 40px;
+  border-radius: 24px;
+  text-align: center;
+  border: 1px solid #eef0f2;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04);
+}
+
+.lo-icon {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(13, 148, 136, 0.04));
+  color: #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.lo-icon svg {
+  width: 44px;
+  height: 44px;
+}
+
+.lo-card h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin: 0 0 10px;
+}
+
+.lo-message {
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.lo-card-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  border: 1px solid #eef0f2;
+  font-size: 13px;
+  color: #475569;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.lo-card-info svg {
+  color: #0d9488;
+  flex-shrink: 0;
+}
+
+.lo-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lo-btn {
+  text-decoration: none;
+  padding: 13px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.lo-btn-primary {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  color: white;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.25);
+}
+
+.lo-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(13, 148, 136, 0.35);
+}
+
+.lo-btn-ghost {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+
+.lo-btn-ghost:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 500px) {
+  .lo-card {
+    padding: 36px 20px;
+    border-radius: 20px;
+  }
+  .lo-actions {
+    flex-direction: column;
+  }
+  .lo-btn {
+    justify-content: center;
+  }
+}
