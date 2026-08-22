@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 
 import { Home } from './Pages/home/home';
-import { Login } from './Pages/login/login';
-import { Register } from './Pages/register/register';
+import { Login } from './features/auth/pages/login/login';
+import { Register } from './features/auth/pages/register/register';
+import { Logout } from './features/auth/pages/logout/logout';
 
 import { BrowseProperties } from './Pages/browse-properties/browse-properties';
 import { Message } from './Pages/message/message';
