@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../services/auth-service';
+import { AuthService } from '../../core/services/auth-service';
 
 @Component({
   selector: 'app-seller-layout',

@@ -12,8 +12,8 @@ import { PropertyDetails } from './Pages/property-details/property-details';
 
 import { AddProperty } from './Pages/add-property/add-property';
 
-import { BuyerGuard } from './guards/buyer-guard';
-import { SellerGuard } from './guards/seller-guard';
+import { BuyerGuard } from './core/guards/buyer-guard';
+import { SellerGuard } from './core/guards/seller-guard';
 
 import { SellerLayout } from './Pages/seller-layout/seller-layout';
 import { SellerDashboard } from './Pages/seller-dashboard/seller-dashboard';
