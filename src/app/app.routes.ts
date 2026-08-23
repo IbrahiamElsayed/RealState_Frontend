@@ -7,7 +7,7 @@ import { Logout } from './features/auth/pages/logout/logout';
 
 import { BrowseProperties } from './features/properties/pages/browse-properties/browse-properties';
 import { Message } from './features/messages/pages/message/message';
-import { Contact } from './Pages/contact/contact';
+import { Contact } from './features/contact/pages/contact/contact';
 import { Favorite } from './features/favorites/pages/favorite/favorite';
 import { PropertyDetails } from './features/properties/pages/property-details/property-details';
 
