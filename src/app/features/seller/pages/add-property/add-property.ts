@@ -17,8 +17,13 @@ export class AddProperty {
   private propertyService = inject(PropertyService);
   private router = inject(Router);
 
+  private static readonly MAX_IMAGES = 10;
+  private static readonly MAX_FILE_SIZE_MB = 5;
+  private static readonly ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
   previews: string[] = [];
   selectedFiles: File[] = [];
+  uploadErrors: string[] = [];
   loading = false;
 
   cities = ['Cairo', 'Mansoura', 'Alexandria'];
@@ -46,12 +51,37 @@ export class AddProperty {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
-    Array.from(input.files).forEach((file) => {
+    this.uploadErrors = [];
+
+    for (const file of Array.from(input.files)) {
+      if (!AddProperty.ALLOWED_TYPES.includes(file.type)) {
+        this.uploadErrors.push(`"${file.name}" is not a supported image (JPG, PNG, GIF, WEBP).`);
+        continue;
+      }
+
+      if (file.size > AddProperty.MAX_FILE_SIZE_MB * 1024 * 1024) {
+        this.uploadErrors.push(`"${file.name}" exceeds the ${AddProperty.MAX_FILE_SIZE_MB}MB size limit.`);
+        continue;
+      }
+
+      if (this.selectedFiles.length >= AddProperty.MAX_IMAGES) {
+        this.uploadErrors.push(`You can upload up to ${AddProperty.MAX_IMAGES} images.`);
+        break;
+      }
+
       this.selectedFiles.push(file);
       this.previews.push(URL.createObjectURL(file));
-    });
+    }
 
     input.value = '';
+  }
+
+  removeImage(index: number) {
+    if (index < 0 || index >= this.selectedFiles.length) return;
+
+    URL.revokeObjectURL(this.previews[index]);
+    this.selectedFiles.splice(index, 1);
+    this.previews.splice(index, 1);
   }
 
   submit() {
@@ -80,6 +110,8 @@ export class AddProperty {
       next: (res) => {
         this.loading = false;
         this.previews.forEach((p) => URL.revokeObjectURL(p));
+        this.previews = [];
+        this.selectedFiles = [];
         this.router.navigate(['/seller/properties']);
       },
 

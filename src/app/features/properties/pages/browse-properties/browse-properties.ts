@@ -90,10 +90,13 @@ export class BrowseProperties implements OnInit {
   }
 
   totalPages(): number {
-    return Math.ceil(this.propertyService.totalCount() / this.filters.pageSize);
+    return this.propertyService.totalPages();
   }
 
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages() || page === this.filters.pageNumber) {
+      return;
+    }
     this.filters.pageNumber = page;
     this.loadData();
   }

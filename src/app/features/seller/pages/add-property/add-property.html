@@ -314,16 +314,35 @@
           #fileInput
           type="file"
           multiple
-          accept="image/*"
+          accept="image/jpeg,image/png,image/gif,image/webp"
           (change)="onFileChange($event)"
           style="display: none"
         />
 
+        @if (uploadErrors.length > 0) {
+          <div class="upload-errors">
+            @for (error of uploadErrors; track error) {
+              <p>{{ error }}</p>
+            }
+          </div>
+        }
+
         @if (previews.length > 0) {
           <div class="preview-grid">
-            @for (preview of previews; track preview) {
+            @for (preview of previews; track preview; let i = $index) {
               <div class="preview-item">
                 <img [src]="preview" alt="Preview" />
+                @if (i === 0) {
+                  <span class="main-badge">Main</span>
+                }
+                <button
+                  type="button"
+                  class="remove-btn"
+                  (click)="removeImage(i)"
+                  aria-label="Remove image"
+                >
+                  &times;
+                </button>
               </div>
             }
           </div>
