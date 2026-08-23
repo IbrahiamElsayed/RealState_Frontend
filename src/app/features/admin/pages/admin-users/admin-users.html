@@ -55,7 +55,7 @@
             </td>
             <td class="email">{{ user.email }}</td>
             <td>
-              <span class="role-badge" [class.seller]="user.role === 'Seller'" [class.buyer]="user.role === 'Buyer'">
+              <span class="role-badge" [class.seller]="user.role === 'Seller'" [class.buyer]="user.role === 'Buyer'" [class.admin]="user.role === 'Admin'">
                 {{ user.role || 'No role' }}
               </span>
             </td>
