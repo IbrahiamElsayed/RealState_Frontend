@@ -20,7 +20,7 @@ import { SellerLayout } from './layouts/seller-layout/seller-layout';
 import { SellerDashboard } from './Pages/seller-dashboard/seller-dashboard';
 import { SellerProperties } from './Pages/seller-properties/seller-properties';
 import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
-import { SellerNotifications } from './Pages/seller-notifications/seller-notifications';
+import { SellerNotifications } from './features/notifications/pages/seller-notifications/seller-notifications';
 import { SellerProfile } from './Pages/seller-profile/seller-profile';
 import { PaymentSuccess } from './Pages/payment-success/payment-success';
 import { PaymentCancel } from './Pages/payment-cancel/payment-cancel';
