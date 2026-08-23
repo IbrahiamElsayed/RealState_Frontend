@@ -6,7 +6,7 @@ import { Register } from './features/auth/pages/register/register';
 import { Logout } from './features/auth/pages/logout/logout';
 
 import { BrowseProperties } from './features/properties/pages/browse-properties/browse-properties';
-import { Message } from './Pages/message/message';
+import { Message } from './features/messages/pages/message/message';
 import { Contact } from './Pages/contact/contact';
 import { Favorite } from './features/favorites/pages/favorite/favorite';
 import { PropertyDetails } from './features/properties/pages/property-details/property-details';
@@ -19,7 +19,7 @@ import { SellerGuard } from './core/guards/seller-guard';
 import { SellerLayout } from './layouts/seller-layout/seller-layout';
 import { SellerDashboard } from './Pages/seller-dashboard/seller-dashboard';
 import { SellerProperties } from './Pages/seller-properties/seller-properties';
-import { SellerMessages } from './Pages/seller-messages/seller-messages';
+import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
 import { SellerNotifications } from './Pages/seller-notifications/seller-notifications';
 import { SellerProfile } from './Pages/seller-profile/seller-profile';
 import { PaymentSuccess } from './Pages/payment-success/payment-success';
