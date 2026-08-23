@@ -11,14 +11,14 @@ import { Contact } from './features/contact/pages/contact/contact';
 import { Favorite } from './features/favorites/pages/favorite/favorite';
 import { PropertyDetails } from './features/properties/pages/property-details/property-details';
 
-import { AddProperty } from './Pages/add-property/add-property';
+import { AddProperty } from './features/seller/pages/add-property/add-property';
 
 import { BuyerGuard } from './core/guards/buyer-guard';
 import { SellerGuard } from './core/guards/seller-guard';
 
 import { SellerLayout } from './layouts/seller-layout/seller-layout';
-import { SellerDashboard } from './Pages/seller-dashboard/seller-dashboard';
-import { SellerProperties } from './Pages/seller-properties/seller-properties';
+import { SellerDashboard } from './features/seller/pages/seller-dashboard/seller-dashboard';
+import { SellerProperties } from './features/seller/pages/seller-properties/seller-properties';
 import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
 import { SellerNotifications } from './features/notifications/pages/seller-notifications/seller-notifications';
 import { Profile } from './features/profile/pages/profile/profile';
@@ -102,7 +102,7 @@ export const routes: Routes = [
       {
         path: 'update-property/:id',
         loadComponent: () =>
-          import('./Pages/update-property/update-property').then((m) => m.UpdateProperty),
+          import('./features/seller/pages/update-property/update-property').then((m) => m.UpdateProperty),
       },
     ],
   },
