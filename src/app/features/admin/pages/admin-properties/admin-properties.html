@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1>Properties Moderation</h1>
+  <p>Review, approve or reject listings</p>
+</div>
+
+<div class="tabs">
+  @for (tab of tabs; track tab.value) {
+    <button class="tab" [class.active]="statusFilter === tab.value" (click)="setStatus(tab.value)">
+      {{ tab.label }}
+    </button>
+  }
+</div>
+
+@if (actionError) {
+  <div class="alert-error">{{ actionError }}</div>
+}
+
+@if (loading) {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading properties...</p>
+  </div>
+} @else {
+  <div class="table-wrap">
+    <table class="props-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Location</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (property of properties; track property.id) {
+          <tr>
+            <td>
+              <div class="prop-cell">
+                <img
+                  class="thumb"
+                  [src]="adminService.imageUrl(property.mainImage)"
+                  [alt]="property.title"
+                />
+                <span class="title">{{ property.title }}</span>
+              </div>
+            </td>
+            <td class="muted">{{ property.cityName }} · {{ property.propertyTypeName }}</td>
+            <td class="price">{{ property.price | number: '1.0-0' }} EGP</td>
+            <td>
+              <span
+                class="status-badge"
+                [class.approved]="property.isVerified"
+                [class.rejected]="!property.isVerified && !property.isAvailable"
+                [class.pending]="!property.isVerified && property.isAvailable"
+              >
+                @if (property.isVerified) {
+                  Approved
+                } @else if (!property.isAvailable) {
+                  Rejected
+                } @else {
+                  Pending
+                }
+              </span>
+            </td>
+            <td class="actions-col">
+              @if (!property.isVerified && property.isAvailable) {
+                <button class="btn-action approve" (click)="approve(property)">Approve</button>
+                <button class="btn-action reject" (click)="reject(property)">Reject</button>
+              } @else if (property.isVerified) {
+                <button class="btn-action reject" (click)="reject(property)">Reject</button>
+              }
+              <button class="btn-action delete" (click)="delete(property)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (properties.length === 0) {
+      <div class="empty-state">No properties in this category.</div>
+    }
+  </div>
+}
