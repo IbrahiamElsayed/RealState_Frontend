@@ -22,8 +22,8 @@ import { SellerProperties } from './Pages/seller-properties/seller-properties';
 import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
 import { SellerNotifications } from './features/notifications/pages/seller-notifications/seller-notifications';
 import { SellerProfile } from './Pages/seller-profile/seller-profile';
-import { PaymentSuccess } from './Pages/payment-success/payment-success';
-import { PaymentCancel } from './Pages/payment-cancel/payment-cancel';
+import { PaymentSuccess } from './features/payments/pages/payment-success/payment-success';
+import { PaymentCancel } from './features/payments/pages/payment-cancel/payment-cancel';
 import { Profile } from './Pages/profile/profile';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
