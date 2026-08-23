@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BrowsePropertyService } from '../../services/browse-property-service';
 import { BrowseFilters } from '../../models/browse-filters';
-import { FavoriteService } from '../../../../services/favorite-service';
+import { FavoriteService } from '../../../favorites/services/favorite-service';
 
 @Component({
   selector: 'app-browse-properties',
