@@ -106,6 +106,27 @@
             </svg>
           </div>
           <div class="up-dropdown">
+            @if (auth.isAdmin()) {
+              <a routerLink="/admin/dashboard" class="up-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7c3aed"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="3" width="7" height="7" />
+                  <rect x="14" y="3" width="7" height="7" />
+                  <rect x="14" y="14" width="7" height="7" />
+                  <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                Admin Dashboard
+              </a>
+              <div class="up-divider"></div>
+            }
             @if (auth.isSeller()) {
               <a routerLink="/seller/dashboard" class="up-item">
                 <svg
@@ -226,6 +247,12 @@
         <a routerLink="/seller/profile" class="mobile-link" (click)="mobileOpen = false">Profile</a>
       } @else {
         <a routerLink="/profile" class="mobile-link" (click)="mobileOpen = false">Profile</a>
+      }
+      @if (auth.isAdmin()) {
+        <div class="mobile-divider"></div>
+        <a routerLink="/admin/dashboard" class="mobile-link" (click)="mobileOpen = false"
+          >Admin Dashboard</a
+        >
       }
       @if (auth.isLoggedIn()) {
         <div class="mobile-divider"></div>

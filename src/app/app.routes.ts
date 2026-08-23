@@ -15,8 +15,13 @@ import { AddProperty } from './features/seller/pages/add-property/add-property';
 
 import { BuyerGuard } from './core/guards/buyer-guard';
 import { SellerGuard } from './core/guards/seller-guard';
+import { AdminGuard } from './core/guards/admin-guard';
 
 import { SellerLayout } from './layouts/seller-layout/seller-layout';
+import { AdminLayout } from './layouts/admin-layout/admin-layout';
+import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-dashboard';
+import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
+import { AdminProperties } from './features/admin/pages/admin-properties/admin-properties';
 import { SellerDashboard } from './features/seller/pages/seller-dashboard/seller-dashboard';
 import { SellerProperties } from './features/seller/pages/seller-properties/seller-properties';
 import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
@@ -113,6 +118,32 @@ export const routes: Routes = [
   {
     path: 'payment-cancel',
     component: PaymentCancel,
+  },
+
+  // Admin Routes
+  {
+    path: 'admin',
+    component: AdminLayout,
+    canActivate: [AdminGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        component: AdminDashboard,
+      },
+      {
+        path: 'users',
+        component: AdminUsers,
+      },
+      {
+        path: 'properties',
+        component: AdminProperties,
+      },
+    ],
   },
 
   { path: '**', redirectTo: 'home' },
