@@ -1,0 +1,157 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2L4 5v6c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V5l-8-3zm0 4a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0 10.5c-1.67 0-5-.84-5-2.5V12c0-1.66 3.33-2.5 5-2.5s5 .84 5 2.5v2c0 1.66-3.33 2.5-5 2.5z"
+            />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h2>RealEstate</h2>
+          <span>Admin Panel</span>
+        </div>
+      </div>
+
+      <div class="menu-label">Administration</div>
+      <nav class="menu">
+        <a routerLink="/admin/dashboard" routerLinkActive="active">
+          <span class="menu-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="7" height="9" x="3" y="3" rx="1" />
+              <rect width="7" height="5" x="14" y="3" rx="1" />
+              <rect width="7" height="9" x="14" y="12" rx="1" />
+              <rect width="7" height="5" x="3" y="16" rx="1" />
+            </svg>
+          </span>
+          <span class="menu-text">Dashboard</span>
+          <span class="menu-indicator"></span>
+        </a>
+        <a routerLink="/admin/users" routerLinkActive="active">
+          <span class="menu-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </span>
+          <span class="menu-text">Users</span>
+          <span class="menu-indicator"></span>
+        </a>
+        <a routerLink="/admin/properties" routerLinkActive="active">
+          <span class="menu-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </span>
+          <span class="menu-text">Properties</span>
+          <span class="menu-indicator"></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">
+            {{ user && user.username ? user.username.charAt(0).toUpperCase() : 'A' }}
+          </div>
+          <div class="user-info">
+            <h4>{{ user?.username || 'Administrator' }}</h4>
+            <p>{{ user?.email || 'Platform Admin' }}</p>
+          </div>
+          <div class="user-status"></div>
+        </div>
+        <button class="logout-btn" (click)="logout()">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <div class="breadcrumb">
+          <a routerLink="/home">Home</a>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+          <span>Admin</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <a routerLink="/home" class="view-site-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          View Site
+        </a>
+      </div>
+    </div>
+    <div class="page-body">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
