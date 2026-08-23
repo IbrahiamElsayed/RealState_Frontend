@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { PropertyHome } from './property-home';
+import { PropertyHomeService } from './property-home';
 
-describe('PropertyHome', () => {
-  let service: PropertyHome;
+describe('PropertyHomeService', () => {
+  let service: PropertyHomeService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(PropertyHome);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(PropertyHomeService);
   });
 
   it('should be created', () => {

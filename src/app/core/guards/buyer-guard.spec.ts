@@ -1,17 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { BuyerGuard } from './buyer-guard';
 
-describe('buyerGuardGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => buyerGuardGuard(...guardParameters));
+describe('BuyerGuard', () => {
+  let guard: BuyerGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [BuyerGuard, provideHttpClient(), provideHttpClientTesting()],
+    });
+    guard = TestBed.inject(BuyerGuard);
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    expect(guard).toBeTruthy();
   });
 });

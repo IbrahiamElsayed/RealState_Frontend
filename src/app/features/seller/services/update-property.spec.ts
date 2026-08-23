@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { UpdateProperty } from './update-property';
+import { UpdatePropertyService } from './update-property';
 
-describe('UpdateProperty', () => {
-  let service: UpdateProperty;
+describe('UpdatePropertyService', () => {
+  let service: UpdatePropertyService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UpdateProperty);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(UpdatePropertyService);
   });
 
   it('should be created', () => {

@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { AuthInterceptor } from './auth-interceptor';
 
-describe('authIntercceptorInterceptor', () => {
-  const interceptor: HttpInterceptorFn = (req, next) =>
-    TestBed.runInInjectionContext(() => authIntercceptorInterceptor(req, next));
+describe('AuthInterceptor', () => {
+  let interceptor: AuthInterceptor;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [AuthInterceptor, provideHttpClient(), provideHttpClientTesting()],
+    });
+    interceptor = TestBed.inject(AuthInterceptor);
   });
 
   it('should be created', () => {
