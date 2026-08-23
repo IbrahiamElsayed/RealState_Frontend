@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { PropertyDetailsService } from '../../services/property-details-service';
-import { PaymentService } from '../../services/payment-service';
+import { PaymentService } from '../../../../services/payment-service';
 
 @Component({
   selector: 'app-property-details',

@@ -5,11 +5,11 @@ import { Login } from './features/auth/pages/login/login';
 import { Register } from './features/auth/pages/register/register';
 import { Logout } from './features/auth/pages/logout/logout';
 
-import { BrowseProperties } from './Pages/browse-properties/browse-properties';
+import { BrowseProperties } from './features/properties/pages/browse-properties/browse-properties';
 import { Message } from './Pages/message/message';
 import { Contact } from './Pages/contact/contact';
 import { Favorite } from './Pages/favorite/favorite';
-import { PropertyDetails } from './Pages/property-details/property-details';
+import { PropertyDetails } from './features/properties/pages/property-details/property-details';
 
 import { AddProperty } from './Pages/add-property/add-property';
 
