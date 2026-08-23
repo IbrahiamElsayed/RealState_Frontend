@@ -1,0 +1,199 @@
+<div class="notif-page">
+  <div class="notif-header">
+    <div class="notif-header-icon">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    </div>
+    <div class="notif-header-info">
+      <h1>Notifications</h1>
+      <span class="notif-count-badge"
+        >{{ notificationService.notifications().length }} notification{{
+          notificationService.notifications().length !== 1 ? 's' : ''
+        }}</span
+      >
+    </div>
+    <button class="notif-settings-btn" title="Notification settings">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+        />
+      </svg>
+    </button>
+  </div>
+
+  @if (notificationService.loading() && notificationService.notifications().length === 0) {
+    <div class="notif-skeleton">
+      @for (_ of [1, 2, 3]; track _) {
+        <div class="notif-skel-card">
+          <div class="notif-skel-icon"></div>
+          <div class="notif-skel-body">
+            <div class="notif-skel-line w-80"></div>
+            <div class="notif-skel-line w-40"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (notificationService.error() && notificationService.notifications().length === 0) {
+    <div class="notif-error">
+      <div class="notif-error-icon">
+        <svg
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <h3>Something went wrong</h3>
+      <p>{{ notificationService.error() }}</p>
+      <button class="notif-retry" (click)="notificationService.loadOldNotifications()">
+        Try Again
+      </button>
+    </div>
+  }
+
+  <div class="notif-list">
+    @for (n of notificationService.notifications(); track n.id) {
+      <div
+        class="notif-card"
+        [class]="getStatusClass(n)"
+        [class.unread]="!n.isRead"
+        (click)="onCardClick(n)"
+      >
+        <div class="notif-card-accent"></div>
+        <div class="notif-icon">
+          @if (getIcon(n.type) === 'payment') {
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          } @else if (getIcon(n.type) === 'message') {
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          } @else if (getIcon(n.type) === 'view') {
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          } @else if (getIcon(n.type) === 'favorite') {
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+          } @else {
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+          }
+        </div>
+        <div class="notif-content">
+          <p>{{ n.text || 'No content' }}</p>
+          <span class="notif-time">{{ n.createdAt | date: 'MMM d, h:mm a' }}</span>
+        </div>
+        @if (!n.isRead) {
+          <span class="notif-unread-dot"></span>
+        }
+      </div>
+    } @empty {
+      @if (!notificationService.loading() && !notificationService.error()) {
+        <div class="notif-empty">
+          <div class="notif-empty-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+          </div>
+          <h3>All caught up!</h3>
+          <p>No notifications to show right now</p>
+        </div>
+      }
+    }
+  </div>
+</div>
