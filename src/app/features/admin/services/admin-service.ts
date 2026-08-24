@@ -20,6 +20,18 @@ export interface AdminProperty {
   ownerName?: string | null;
 }
 
+export interface AdminCity {
+  id: number;
+  name: string;
+  country?: string | null;
+}
+
+export interface AdminPropertyType {
+  id: number;
+  name: string;
+  propertiesCount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -78,6 +90,49 @@ export class AdminService {
 
   deleteProperty(propertyId: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.api}/properties/${propertyId}`);
+  }
+
+  getCities(): Observable<AdminCity[]> {
+    return this.http.get<AdminCity[]>('https://localhost:7024/api/City');
+  }
+
+  createCity(name: string, country: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>('https://localhost:7024/api/City', {
+      name,
+      country,
+    });
+  }
+
+  updateCity(id: number, name: string, country: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`https://localhost:7024/api/City/${id}`, {
+      name,
+      country,
+    });
+  }
+
+  deleteCity(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`https://localhost:7024/api/City/${id}`);
+  }
+
+  getPropertyTypes(): Observable<AdminPropertyType[]> {
+    return this.http.get<AdminPropertyType[]>('https://localhost:7024/api/PropertyType');
+  }
+
+  createPropertyType(name: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>('https://localhost:7024/api/PropertyType', { name });
+  }
+
+  updatePropertyType(id: number, name: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      `https://localhost:7024/api/PropertyType/${id}`,
+      { name },
+    );
+  }
+
+  deletePropertyType(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `https://localhost:7024/api/PropertyType/${id}`,
+    );
   }
 
   imageUrl(mainImage?: string | null): string {

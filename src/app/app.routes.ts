@@ -22,6 +22,7 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-dashboard';
 import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
 import { AdminProperties } from './features/admin/pages/admin-properties/admin-properties';
+import { AdminSettings } from './features/admin/pages/admin-settings/admin-settings';
 import { SellerDashboard } from './features/seller/pages/seller-dashboard/seller-dashboard';
 import { SellerProperties } from './features/seller/pages/seller-properties/seller-properties';
 import { SellerMessages } from './features/messages/pages/seller-messages/seller-messages';
@@ -149,6 +150,10 @@ export const routes: Routes = [
       {
         path: 'properties',
         component: AdminProperties,
+      },
+      {
+        path: 'settings',
+        component: AdminSettings,
       },
     ],
   },
