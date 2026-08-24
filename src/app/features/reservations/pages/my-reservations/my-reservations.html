@@ -1,0 +1,116 @@
+<div class="page-header">
+  <div class="header-icon">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  </div>
+  <div>
+    <h1>My Reservations</h1>
+    <p>Track your property reservations and payments</p>
+  </div>
+</div>
+
+@if (loading) {
+  <div class="skeleton-list">
+    @for (i of [1, 2, 3]; track i) {
+      <div class="skeleton-card"></div>
+    }
+  </div>
+} @else if (error) {
+  <div class="error-box">
+    <p>{{ error }}</p>
+  </div>
+} @else if (reservations.length === 0) {
+  <div class="empty-state">
+    <div class="empty-icon">
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    </div>
+    <h2>No reservations yet</h2>
+    <p>Browse properties and reserve the one you love.</p>
+    <a routerLink="/browse" class="browse-btn">Browse Properties</a>
+  </div>
+} @else {
+  <div class="stats-row">
+    <div class="stat-chip">
+      <span class="chip-value">{{ reservations.length }}</span>
+      <span class="chip-label">Total</span>
+    </div>
+    <div class="stat-chip paid-chip">
+      <span class="chip-value">{{ paidCount() }}</span>
+      <span class="chip-label">Paid</span>
+    </div>
+    <div class="stat-chip total-chip">
+      <span class="chip-value">{{ totalPaid() | number: '1.0-0' }} EGP</span>
+      <span class="chip-label">Total paid</span>
+    </div>
+  </div>
+
+  <div class="res-list">
+    @for (r of reservations; track r.id) {
+      <div class="res-card">
+        <div class="res-img">
+          @if (r.mainImage) {
+            <img [src]="imageUrl(r.mainImage)" [alt]="r.propertyTitle" />
+          } @else {
+            <div class="no-img">🏠</div>
+          }
+        </div>
+
+        <div class="res-info">
+          <a [routerLink]="['/property', r.propertyId]" class="res-title">{{
+            r.propertyTitle
+          }}</a>
+          <span class="res-meta">
+            @if (r.cityName) {
+              {{ r.cityName }} ·
+            }
+            {{ r.createdAt | date: 'MMM d, yyyy · h:mm a' }}
+          </span>
+        </div>
+
+        <div class="res-side">
+          <span class="amount">{{ r.amount | number: '1.0-0' }} EGP</span>
+          <span class="status-badge" [class.paid]="r.status === 'Paid'" [class.pending]="r.status !== 'Paid'">
+            @if (r.status === 'Paid') {
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Paid
+            } @else {
+              Pending payment
+            }
+          </span>
+          @if (r.paymentDate) {
+            <span class="paid-date">Paid on {{ r.paymentDate | date: 'MMM d, yyyy' }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

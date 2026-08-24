@@ -30,6 +30,7 @@ import { Profile } from './features/profile/pages/profile/profile';
 import { SellerProfile } from './features/profile/pages/seller-profile/seller-profile';
 import { PaymentSuccess } from './features/payments/pages/payment-success/payment-success';
 import { PaymentCancel } from './features/payments/pages/payment-cancel/payment-cancel';
+import { MyReservations } from './features/reservations/pages/my-reservations/my-reservations';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'browse', component: BrowseProperties },
@@ -41,6 +42,12 @@ export const routes: Routes = [
   {
     path: 'favorite',
     component: Favorite,
+    canActivate: [BuyerGuard],
+  },
+
+  {
+    path: 'reservations',
+    component: MyReservations,
     canActivate: [BuyerGuard],
   },
 
