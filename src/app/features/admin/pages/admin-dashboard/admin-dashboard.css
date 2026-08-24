@@ -303,4 +303,42 @@
   .bottom-grid {
     grid-template-columns: 1fr;
   }
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.chart-card {
+  background: white;
+  border: 1px solid #eef0f2;
+  border-radius: 18px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.charts-grid .chart-card:last-child {
+  grid-column: 1 / -1;
+  max-width: 50%;
+}
+
+.chart-header {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #94a3b8;
+}
+
+.chart-body {
+  position: relative;
+  height: 240px;
 }

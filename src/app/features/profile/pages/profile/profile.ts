@@ -1,8 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ProfileService } from '../../../../core/services/profile-service';
 import { AuthService } from '../../../../core/services/auth-service';
+import { Profile as ProfileModel } from '../../models/profile';
 
 @Component({
   selector: 'app-profile',
@@ -13,85 +15,134 @@ import { AuthService } from '../../../../core/services/auth-service';
 })
 export class Profile implements OnInit {
   private service = inject(ProfileService);
-  auth = inject(AuthService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
-  profile: any = null;
+  profile: ProfileModel | null = null;
+  editForm = {
+    fullName: '',
+    phoneNumber: '',
+    address: '',
+    bio: '',
+  };
+
   editMode = false;
   loading = true;
+  saving = false;
+  deleting = false;
   saved = false;
+  error = '';
+  deleteError = '';
 
   ngOnInit() {
-    const user = this.auth.getUser();
-    const base = {
-      userName: user?.username || '',
-      username: user?.username || '',
-      email: user?.email || '',
-      fullName: user?.username || '',
-    };
-
-    const cached = this.service.cached();
-    if (cached) {
-      this.profile = { ...base, ...cached };
-      this.loading = false;
-      this.refresh();
-    } else {
-      this.profile = base;
-      this.load();
-    }
+    this.load();
   }
 
   load() {
     this.loading = true;
+    this.error = '';
     this.service.getProfile().subscribe({
-      next: (res: any) => {
-        this.profile = { ...this.profile, ...res };
+      next: (res: ProfileModel) => {
+        this.profile = res;
+        this.populateForm();
         this.loading = false;
       },
-      error: () => {
+      error: (err: any) => {
+        this.error = err.error?.message || 'Failed to load profile';
         this.loading = false;
       },
     });
   }
 
-  refresh() {
-    this.service.getProfile().subscribe({
-      next: (res: any) => {
-        this.profile = { ...this.profile, ...res };
-      },
-      error: () => {},
-    });
+  populateForm() {
+    if (!this.profile) return;
+    this.editForm = {
+      fullName: this.profile.fullName || '',
+      phoneNumber: this.profile.phoneNumber || '',
+      address: this.profile.address || '',
+      bio: this.profile.bio || '',
+    };
   }
 
   edit() {
+    this.populateForm();
     this.editMode = true;
+    this.error = '';
+  }
+
+  cancel() {
+    this.editMode = false;
+    this.error = '';
   }
 
   save() {
     if (!this.profile) return;
-    this.loading = true;
+
+    if (!this.editForm.fullName.trim()) {
+      this.error = 'Full name is required';
+      return;
+    }
+
+    this.saving = true;
+    this.error = '';
     this.saved = false;
-    this.service.updateProfile(this.profile).subscribe({
+
+    const payload = {
+      fullName: this.editForm.fullName.trim(),
+      phoneNumber: this.editForm.phoneNumber.trim() || null,
+      address: this.editForm.address.trim() || null,
+      bio: this.editForm.bio.trim() || null,
+    };
+
+    this.service.updateProfile(payload).subscribe({
       next: () => {
+        this.profile = {
+          ...this.profile!,
+          fullName: payload.fullName,
+          phoneNumber: payload.phoneNumber,
+          address: payload.address,
+          bio: payload.bio,
+        };
+        this.service.cached.set(this.profile);
         this.editMode = false;
-        this.loading = false;
+        this.saving = false;
         this.saved = true;
         setTimeout(() => (this.saved = false), 2500);
       },
-      error: () => {
-        this.loading = false;
+      error: (err: any) => {
+        this.error = err.error?.message || 'Failed to update profile';
+        this.saving = false;
       },
     });
   }
 
   delete() {
-    if (confirm('Delete account?')) {
-      this.service.deleteProfile().subscribe({
-        next: () => {
-          localStorage.clear();
-          window.location.href = '/login';
-        },
-        error: () => {},
-      });
+    if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      return;
     }
+
+    this.deleting = true;
+    this.deleteError = '';
+
+    this.service.deleteProfile().subscribe({
+      next: () => {
+        this.auth.logout();
+        this.service.clearCache();
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        this.deleteError = err.error?.message || 'Failed to delete account';
+        this.deleting = false;
+      },
+    });
+  }
+
+  getInitial(): string {
+    const name = this.profile?.fullName || this.profile?.userName || 'U';
+    return name.charAt(0).toUpperCase();
+  }
+
+  getRoleBadge(): string {
+    return this.profile?.roles?.[0] || 'Buyer';
   }
 }

@@ -24,12 +24,12 @@ export class Navbar implements OnInit {
   ngOnInit() {
     const cached = this.profileService.cached();
     if (cached) {
-      this.userImage = cached.profileImage || cached.image || cached.imageUrl || null;
+      this.userImage = cached.profileImage || null;
     }
     if (this.auth.isLoggedIn()) {
       this.profileService.getProfile().subscribe({
         next: (res: any) => {
-          this.userImage = res?.profileImage || res?.image || res?.imageUrl || null;
+          this.userImage = res?.profileImage || null;
         },
       });
     }

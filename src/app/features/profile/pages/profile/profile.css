@@ -57,6 +57,15 @@
   color: #10b981;
 }
 
+.error-toast {
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom: 1px solid #fecaca;
+}
+.error-toast svg {
+  color: #ef4444;
+}
+
 .profile-card {
   width: 100%;
   max-width: 560px;
@@ -313,10 +322,18 @@
   border: 1.5px solid rgba(239, 68, 68, 0.2);
 }
 
-.btn-danger:hover {
+.btn-danger:hover:not(:disabled) {
   background: var(--error);
   color: white;
   border-color: var(--error);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 .profile-edit-form {
@@ -385,6 +402,19 @@
 
 .textarea-wrap svg {
   top: 14px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.spinner-white {
+  border-color: rgba(255,255,255,0.3);
+  border-top-color: white;
 }
 
 @keyframes spin {

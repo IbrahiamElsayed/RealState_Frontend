@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { AdminStats } from '../models/admin-stats';
+import { AdminChart } from '../models/admin-chart';
 import { AdminUser } from '../models/admin-user';
 import { PagedResult } from '../../properties/models/paged-result';
 
@@ -137,5 +138,9 @@ export class AdminService {
 
   imageUrl(mainImage?: string | null): string {
     return mainImage ? `${this.imageBaseUrl}${mainImage}` : '/assets/images/no-image.jpg';
+  }
+
+  getChartData(): Observable<AdminChart> {
+    return this.http.get<AdminChart>(`${this.api}/chart-data`);
   }
 }
